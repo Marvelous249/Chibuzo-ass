@@ -1,72 +1,48 @@
-doubledSecondDigit = 0
-firstDigit = 0
-secondDigit =0
-result = 0
-sumofSingleDigits = 0
-sum = 0
-sumofdoubledSecondDigit = 0
-sumTotal = 0
+def get_card_type(card_number):
+    first_digit = card_number[0]
+    second_digit = card_number[1]
 
+    if first_digit == '4':
+        return "Visacard"
+    elif first_digit == '5':
+        return "Mastercard"
+    elif first_digit == '6':
+        return "Discover card"
+    elif first_digit == '3' and second_digit == '7':
+        return "American Express card"
+    else:
+        return "Unknown"
 
-cardNumber = input("Hello, Enter card details to verify \n") 
-	
-	
-collectingNumber =  len (cardNumber)	
+def validate_card_number(card_number):
+    collecting_number = len(card_number)
+    if 13 <= collecting_number or collecting_number <= 16:
+        sum_of_doubled_second_digit = 0
+        sum_total = 0
+        for i in range(0, collecting_number, 2):
+            doubled_second_digit = int(card_number[i]) * 2
+            sum_of_doubled_second_digit += doubled_second_digit
+            if doubled_second_digit >= 10:
+                while doubled_second_digit != 0:
+                    result = doubled_second_digit % 10
+                    sum_total += result
+                    doubled_second_digit //= 10
 
-if len(cardNumber) >= 13 & len(cardNumber) <= 16:
+        return sum_of_doubled_second_digit + sum_total
 
-	for values in range(0, len(cardNumber), 2):	
+    return "invalid card number"
 
-		collectingNumber = cardNumber[0]
-	
-		doubledSecondDigit = collectingNumber * 2
-	
-		sumofdoubledSecondDigit = sumofdoubledSecondDigit + int(doubledSecondDigit)
-	
-		if(doubledSecondDigit >= 10): 
-			while doubledSecondDigit != 0: 
-				result = doubledSecondDigit % 10
-				sum = sum + result
-				doubledSecondDigit /= 10
-	
- 
-	
-	sumTotal = sumofdoubledSecondDigit + sum
-
-	cardNumberFirstDigit: string  = cardNumber[0]
-	cardNumberSecondDigit:string  = cardNumber[1]
-
-		
-
-	if (cardNumberFirstDigit == '4'):
-		print("Credit card type: Visacard\n")
-	
-	elif(cardNumberFirstDigit == '5'): 
-		print("Credit card type: Master card\n")
-	
-	elif(cardNumberFirstDigit == '6'): 
-		print("Credit card type: Discover card\n")
-	
-	elif(cardNumberFirstDigit == '3' & cardNumberSecondDigit == '7'): 
-		print("Credit card type: American express card\n")
-	
-		print("Credit card Number: " + cardNumber + "\n")
-
-		print("Credit card Digit length: " + cardNumber.length() + "\n")
-
-		if (sumTotal % 10 == 0): 
-			println("Credit card validity status: Valid")
-		else:  
-			print("Credit card validity status: Invalid")
-
-	else:
-			println("Put correct number jare\nWerey wan scam me")
-		
-
-			
-	
-	
-	
-
-	
-
+def cardMain():
+    card_number = input("Enter a credit card number: ")
+    sum_total = validate_card_number(card_number)
+    if sum_total != "invalid card number":
+    	print(f"Credit card type: {get_card_type(card_number)}")
+    	print(f"Credit card number: {card_number}")
+    	print(f"Credit card digit length: {len(card_number)}")
+    	if sum_total % 10 == 0:
+    	    print("Credit card validity status: Valid")
+    	else:
+    	    print("Credit card validity status: Invalid")
+    else:
+        print("Invalid credit card number. Please check your input.")
+if __name__== '__main__':
+    cardMain()
